@@ -12,37 +12,37 @@ public class Ringpuffer {
 	}
 	
 	public void enqueue(int eingabe) {
+		// Setzt SchreibPos auf 0 nach Runde
 		if (schreibPos >= puffer.length) {
 			schreibPos = 0;
 		}
+		// Passt auf, dass Schreibposition die Leseposition nicht überrundet
 		if(schreibPos != lesePos) {
 			puffer[schreibPos] = eingabe;
+			schreibPos++;
 		} else {
 			lesePos++;
 			puffer[schreibPos] = eingabe;
 		}
-		schreibPos++;
 	}
 	
 	public void dequeue() {
+		// Setzt SchreibPos auf 0 nach Runde
 		if (lesePos >= puffer.length) {
 			lesePos = 0;
 		}
+		// Passt auf, dass Leseposition die Schreibposition nicht überrundet
 		if(schreibPos != lesePos) {
 			System.out.print(puffer[lesePos]);
 			lesePos++;
 		} else {
-			schreibPos--;
-			System.out.print(puffer[lesePos]);
+			System.out.println("Alles gelesen");
 		}
-	}
-
-	//Überrundung dequeue
+	}	
 	
 	
 	
-	
-	
+	// Hauptmethode, füllt/liest Puffer
 	public static void main(String[] args) {
 		Ringpuffer rp = new Ringpuffer();
 		
@@ -50,17 +50,12 @@ public class Ringpuffer {
 			rp.enqueue(1);
 		}
 		
-		for(int j = 0; j < 20; j++) {
+		for(int j = 0; j < 19; j++) {
 			rp.dequeue();
 		}
-		/**
-		for(int a = 0; a < 8; a++) {
-			rp.enqueue(2);
-		}
-		rp.pufferAusgeben();
-		**/
 	}
 	
+	// Gesamtes Array ausgeben
 	public void pufferAusgeben() {
 		for (int i = 0; i < puffer.length; i++) {
 			System.out.print(puffer[i]);
